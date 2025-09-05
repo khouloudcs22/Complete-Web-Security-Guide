@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Web Security Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --networking: #9b59b6;
+            --os: #1abc9c;
+            --web: #e67e22;
+            --security: #2980b9;
+            --http: #8e44ad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--secondary);
+            }
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px var(--secondary), 0 0 40px var(--secondary);
+            }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--light);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .nav-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--light);
+            color: var(--light);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-5px);
+        }
+        
+        .web-btn:hover {
+            background: var(--web);
+        }
+        
+        .networking-btn:hover {
+            background: var(--networking);
+        }
+        
+        .os-btn:hover {
+            background: var(--os);
+        }
+        
+        .security-btn:hover {
+            background: var(--security);
+        }
+        
+        .http-btn:hover {
+            background: var(--http);
+        }
+        
+        .content-section {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            border-left: 5px solid var(--secondary);
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .web-header {
+            border-left-color: var(--web);
+            color: var(--web);
+        }
+        
+        .networking-header {
+            border-left-color: var(--networking);
+            color: var(--networking);
+        }
+        
+        .os-header {
+            border-left-color: var(--os);
+            color: var(--os);
+        }
+        
+        .security-header {
+            border-left-color: var(--security);
+            color: var(--security);
+        }
+        
+        .http-header {
+            border-left-color: var(--http);
+            color: var(--http);
+        }
+        
+        h3 {
+            margin: 20px 0 15px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h4 {
+            margin: 15px 0 10px;
+            font-size: 1.3rem;
+            color: var(--secondary);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .code-block code {
+            color: #f8f8f2;
+        }
+        
+        .terminal {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terminal::before {
+            content: "Terminal";
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--accent);
+            padding: 5px 10px;
+            border-bottom-right-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .info-box {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: rgba(243, 156, 18, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .comparison-table th {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .card h4 {
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+        
+        .demo-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .demo-form {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .demo-input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--secondary);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .demo-button {
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .demo-button:hover {
+            background: #2980b9;
+        }
+        
+        .demo-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .status-200 { color: #2ecc71; }
+        .status-301 { color: #f39c12; }
+        .status-404 { color: #e74c3c; }
+        .status-500 { color: #c0392b; }
+        .status-403 { color: #d35400; }
+        
+        .http-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .http-step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .http-number {
+            background: var(--http);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .http-explanation {
+            flex: 1;
+        }
+        
+        .protocol-demo {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .protocol-card {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .protocol-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .tcp-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .tcp-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .tcp-arrow {
+            font-size: 1.5rem;
+        }
+        
+        .file-system {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .file-folder {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 15px;
+            width: 200px;
+        }
+        
+        .file-folder h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--os);
+        }
+        
+        .file-item {
+            padding: 5px 10px;
+            margin: 5px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+        
+        .hacker {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: var(--accent);
+            animation: bounce 2s infinite;
+            z-index: 100;
+            cursor: pointer;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .treasure {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            font-size: 2rem;
+            color: var(--warning);
+            display: none;
+            z-index: 99;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .http-step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Complete Web Security Guide</h1>
+            <p class="subtitle">Master Web Security Fundamentals, Networking, OS Concepts, and Security Principles</p>
+            
+            <div class="nav">
+                <button class="nav-btn web-btn" data-target="web-basics"><i class="fas fa-globe"></i> Web Basics</button>
+                <button class="nav-btn http-btn" data-target="http-details"><i class="fas fa-exchange-alt"></i> HTTP/HTTPS</button>
+                <button class="nav-btn networking-btn" data-target="networking"><i class="fas fa-network-wired"></i> Networking</button>
+                <button class="nav-btn os-btn" data-target="os"><i class="fas fa-desktop"></i> OS Fundamentals</button>
+                <button class="nav-btn security-btn" data-target="security"><i class="fas fa-lock"></i> Security Principles</button>
+            </div>
+        </header>
+        
+        <main>
+            <section id="web-basics" class="content-section active">
+                <h2 class="web-header"><i class="fas fa-globe"></i> Web Basics</h2>
+                <p>Understanding how the web works is fundamental to web security. Let's explore the core concepts.</p>
+                
+                <h3><i class="fas fa-exchange-alt"></i> Client-Server Model</h3>
+                <p>The web operates on a client-server architecture where clients (browsers) request resources from servers.</p>
+                
+                <div class="info-box">
+                    <h4>How it works:</h4>
+                    <ul>
+                        <li><strong>Client:</strong> Web browser (Chrome, Firefox, etc.) that initiates requests</li>
+                        <li><strong>Server:</strong> Remote computer that processes requests and sends responses</li>
+                        <li><strong>Request-Response Cycle:</strong> Client sends HTTP request → Server processes → Server sends HTTP response</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-window-restore"></i> Frontend (Client-Side)</h3>
+                <p>The frontend is what users interact with directly in their browsers.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fab fa-html5"></i> HTML</h4>
+                        <p>Structures web content with elements like forms, inputs, and semantic tags.</p>
+                        <div class="code-block">
+                            <code>&lt;form action="/submit" method="post"&gt;
+  &lt;input type="text" name="username"&gt;
+  &lt;input type="password" name="password"&gt;
+  &lt;input type="submit" value="Login"&gt;
+&lt;/form&gt;</code>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fab fa-js"></i> JavaScript</h4>
+                        <p>Adds interactivity, manipulates DOM, and handles events.</p>
+                        <div class="code-block">
+                            <code>document.getElementById("myButton")
+  .addEventListener("click", function() {
+    alert("Button clicked!");
+});</code>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-cookie"></i> Cookies & Sessions</h4>
+                        <p>Cookies store data on the client, while sessions store data on the server.</p>
+                        <div class="code-block">
+                            <code>// Set a cookie
+document.cookie = "username=John Doe; expires=...";</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-server"></i> Backend (Server-Side)</h3>
+                <p>The backend handles business logic, data processing, and response generation.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-key"></i> Sessions & Authentication</h4>
+                        <p>Maintain user state across requests and verify user identities.</p>
+                        <div class="code-block">
+                            <code>// PHP session example
+session_start();
+$_SESSION['user_id'] = 123;
+$_SESSION['logged_in'] = true;</code>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-database"></i> Databases</h4>
+                        <p>Store and retrieve application data.</p>
+                        <ul>
+                            <li><strong>SQL:</strong> Structured, relational databases (MySQL, PostgreSQL)</li>
+                            <li><strong>NoSQL:</strong> Flexible, non-relational databases (MongoDB, Redis)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-code"></i> APIs</h4>
+                        <p>Application Programming Interfaces allow communication between different software systems.</p>
+                        <div class="code-block">
+                            <code>// Example REST API endpoint
+GET /api/users/123
+POST /api/users
+PUT /api/users/123
+DELETE /api/users/123</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="http-details" class="content-section">
+                <h2 class="http-header"><i class="fas fa-exchange-alt"></i> HTTP/HTTPS Deep Dive</h2>
+                <p>HTTP is the foundation of data communication on the web. HTTPS adds security through encryption.</p>
+                
+                <h3><i class="fas fa-magic"></i> HTTP Methods</h3>
+                <p>HTTP methods indicate the desired action to be performed on a resource.</p>
+                
+                <div class="comparison-table">
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Idempotent</th>
+                        <th>Safe</th>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>Retrieve a resource</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>Submit data to be processed</td>
+                        <td>No</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td>Update a resource</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>DELETE</td>
+                        <td>Delete a resource</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>HEAD</td>
+                        <td>Get headers only</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                </div>
+                
+                <h3><i class="fas fa-code"></i> HTTP Status Codes</h3>
+                <p>Status codes indicate the result of the HTTP request.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><span class="status-200">2xx Success</span></h4>
+                        <ul>
+                            <li><span class="status-200">200 OK</span>: Request succeeded</li>
+                            <li><span class="status-200">201 Created</span>: Resource created</li>
+                            <li><span class="status-200">204 No Content</span>: Success but no content</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><span class="status-301">3xx Redirection</span></h4>
+                        <ul>
+                            <li><span class="status-301">301 Moved Permanently</span>: Resource moved permanently</li>
+                            <li><span class="status-301">302 Found</span>: Resource temporarily moved</li>
+                            <li><span class="status-301">304 Not Modified</span>: Use cached version</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><span class="status-403">4xx Client Errors</span></h4>
+                        <ul>
+                            <li><span class="status-403">400 Bad Request</span>: Malformed request</li>
+                            <li><span class="status-403">401 Unauthorized</span>: Authentication needed</li>
+                            <li><span class="status-403">403 Forbidden</span>: No permission</li>
+                            <li><span class="status-404">404 Not Found</span>: Resource doesn't exist</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><span class="status-500">5xx Server Errors</span></h4>
+                        <ul>
+                            <li><span class="status-500">500 Internal Server Error</span>: Generic server error</li>
+                            <li><span class="status-500">502 Bad Gateway</span>: Invalid response from upstream</li>
+                            <li><span class="status-500">503 Service Unavailable</span>: Server overloaded</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-heading"></i> HTTP Headers</h3>
+                <p>Headers provide additional information about the request or response.</p>
+                
+                <div class="code-block">
+                    <code>GET /index.html HTTP/1.1
+Host: www.example.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+Accept: text/html,application/xhtml+xml
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: sessionid=abc123
+Referer: https://www.google.com/
+Content-Type: application/x-www-form-urlencoded</code>
+                </div>
+                
+                <div class="info-box">
+                    <h4>Important Headers:</h4>
+                    <ul>
+                        <li><strong>Host:</strong> Specifies the domain name of the server</li>
+                        <li><strong>User-Agent:</strong> Identifies the client software</li>
+                        <li><strong>Cookie:</strong> Contains stored cookies for the domain</li>
+                        <li><strong>Referer:</strong> Indicates the page that linked to the requested resource</li>
+                        <li><strong>Content-Type:</strong> Specifies the media type of the resource</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-lock"></i> HTTPS & TLS</h3>
+                <p>HTTPS adds encryption to HTTP using TLS (Transport Layer Security) to secure communications.</p>
+                
+                <div class="http-flow">
+                    <div class="http-step">
+                        <div class="http-number">1</div>
+                        <div class="http-explanation">
+                            <p><strong>Client Hello</strong> - Client sends supported TLS versions and cipher suites</p>
+                        </div>
+                    </div>
+                    <div class="http-step">
+                        <div class="http-number">2</div>
+                        <div class="http-explanation">
+                            <p><strong>Server Hello</strong> - Server chooses TLS version and cipher suite, sends certificate</p>
+                        </div>
+                    </div>
+                    <div class="http-step">
+                        <div class="http-number">3</div>
+                        <div class="http-explanation">
+                            <p><strong>Key Exchange</strong> - Client verifies certificate, generates pre-master secret</p>
+                        </div>
+                    </div>
+                    <div class="http-step">
+                        <div class="http-number">4</div>
+                        <div class="http-explanation">
+                            <p><strong>Change Cipher Spec</strong> - Both parties switch to encrypted communication</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="networking" class="content-section">
+                <h2 class="networking-header"><i class="fas fa-network-wired"></i> Networking Fundamentals</h2>
+                <p>Understanding networking is crucial for web security as it explains how data travels across the internet.</p>
+                
+                <h3><i class="fas fa-layer-group"></i> OSI and TCP/IP Models</h3>
+                <p>These models describe how networks operate through different layers of abstraction.</p>
+                
+                <div class="comparison-table">
+                    <tr>
+                        <th>OSI Model</th>
+                        <th>TCP/IP Model</th>
+                        <th>Protocols</th>
+                        <th>Function</th>
+                    </tr>
+                    <tr>
+                        <td>Application (7)</td>
+                        <td>Application</td>
+                        <td>HTTP, HTTPS, FTP, DNS, SMTP</td>
+                        <td>Network processes to applications</td>
+                    </tr>
+                    <tr>
+                        <td>Presentation (6)</td>
+                        <td>Application</td>
+                        <td>SSL/TLS, JPEG, MPEG</td>
+                        <td>Data representation and encryption</td>
+                    </tr>
+                    <tr>
+                        <td>Session (5)</td>
+                        <td>Application</td>
+                        <td>NetBIOS, SIP</td>
+                        <td>Interhost communication</td>
+                    </tr>
+                    <tr>
+                        <td>Transport (4)</td>
+                        <td>Transport</td>
+                        <td>TCP, UDP</td>
+                        <td>End-to-end connections and reliability</td>
+                    </tr>
+                    <tr>
+                        <td>Network (3)</td>
+                        <td>Internet</td>
+                        <td>IP, ICMP, IPSec</td>
+                        <td>Logical addressing and path determination</td>
+                    </tr>
+                    <tr>
+                        <td>Data Link (2)</td>
+                        <td>Network Access</td>
+                        <td>Ethernet, PPP, ARP</td>
+                        <td>Physical addressing</td>
+                    </tr>
+                    <tr>
+                        <td>Physical (1)</td>
+                        <td>Network Access</td>
+                        <td>CAT5, Fiber, Wireless</td>
+                        <td>Binary transmission</td>
+                    </tr>
+                </div>
+                
+                <h3><i class="fas fa-wifi"></i> TCP vs UDP</h3>
+                <p>These are the two main transport layer protocols with different characteristics.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-exchange-alt"></i> TCP (Transmission Control Protocol)</h4>
+                        <ul>
+                            <li>Connection-oriented</li>
+                            <li>Reliable with error checking</li>
+                            <li>Sequencing of data packets</li>
+                            <li>Flow control</li>
+                            <li>Slower but more reliable</li>
+                            <li>Used by HTTP, HTTPS, FTP, SMTP</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-bolt"></i> UDP (User Datagram Protocol)</h4>
+                        <ul>
+                            <li>Connectionless</li>
+                            <li>No error checking</li>
+                            <li>No sequencing of packets</li>
+                            <li>No flow control</li>
+                            <li>Faster but less reliable</li>
+                            <li>Used by DNS, VoIP, streaming</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-handshake"></i> TCP Three-Way Handshake</h3>
+                <p>TCP establishes a connection using a three-step process before data transfer begins.</p>
+                
+                <div class="tcp-demo">
+                    <div class="tcp-step">
+                        <div>Client</div>
+                        <div class="tcp-arrow">→</div>
+                        <div>SYN</div>
+                        <div class="tcp-arrow">→</div>
+                        <div>Server</div>
+                    </div>
+                    
+                    <div class="tcp-step">
+                        <div>Client</div>
+                        <div class="tcp-arrow">←</div>
+                        <div>SYN-ACK</div>
+                        <div class="tcp-arrow">←</div>
+                        <div>Server</div>
+                    </div>
+                    
+                    <div class="tcp-step">
+                        <div>Client</div>
+                        <div class="tcp-arrow">→</div>
+                        <div>ACK</div>
+                        <div class="tcp-arrow">→</div>
+                        <div>Server</div>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-map-marker-alt"></i> IP Addressing and Ports</h3>
+                <p>IP addresses identify devices on a network, while ports identify specific services on a device.</p>
+                
+                <div class="info-box">
+                    <h4>Common Ports:</h4>
+                    <ul>
+                        <li><strong>20/21:</strong> FTP (File Transfer Protocol)</li>
+                        <li><strong>22:</strong> SSH (Secure Shell)</li>
+                        <li><strong>25:</strong> SMTP (Simple Mail Transfer Protocol)</li>
+                        <li><strong>53:</strong> DNS (Domain Name System)</li>
+                        <li><strong>80:</strong> HTTP (Hypertext Transfer Protocol)</li>
+                        <li><strong>443:</strong> HTTPS (HTTP Secure)</li>
+                        <li><strong>3306:</strong> MySQL Database</li>
+                        <li><strong>3389:</strong> RDP (Remote Desktop Protocol)</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-shield-alt"></i> NAT & Firewalls</h3>
+                <p>Network security mechanisms that control traffic flow.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-random"></i> NAT (Network Address Translation)</h4>
+                        <p>Allows multiple devices on a private network to share a single public IP address.</p>
+                        <ul>
+                            <li>Conserves public IP addresses</li>
+                            <li>Adds a layer of security by hiding internal IPs</li>
+                            <li>Can cause issues with some protocols</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-fire"></i> Firewalls</h4>
+                        <p>Network security system that monitors and controls incoming and outgoing traffic.</p>
+                        <ul>
+                            <li>Packet filtering: Allows or blocks packets based on rules</li>
+                            <li>Stateful inspection: Tracks active connections</li>
+                            <li>Proxy service: Intercepts all messages</li>
+                            <li>Next-generation: Application-level filtering</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-tools"></i> Networking Tools</h3>
+                <p>Essential tools for network troubleshooting and analysis.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-satellite-dish"></i> ping</h4>
+                        <p>Tests connectivity between devices by sending ICMP Echo Request packets.</p>
+                        <div class="terminal">
+                            <p>$ ping example.com</p>
+                            <p>PING example.com (93.184.216.34): 56 data bytes</p>
+                            <p>64 bytes from 93.184.216.34: icmp_seq=0 ttl=54 time=123.456 ms</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-route"></i> traceroute</h4>
+                        <p>Shows the path packets take to reach a destination and measures transit delays.</p>
+                        <div class="terminal">
+                            <p>$ traceroute example.com</p>
+                            <p>1 router.local (192.168.1.1) 1.234 ms</p>
+                            <p>2 10.10.10.1 (10.10.10.1) 12.345 ms</p>
+                            <p>3 ...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-search"></i> nslookup/dig</h4>
+                        <p>Query DNS servers to obtain domain name or IP address mapping.</p>
+                        <div class="terminal">
+                            <p>$ nslookup example.com</p>
+                            <p>Server: 8.8.8.8</p>
+                            <p>Address: 8.8.8.8#53</p>
+                            <p>Non-authoritative answer:</p>
+                            <p>Name: example.com</p>
+                            <p>Address: 93.184.216.34</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-binoculars"></i> nmap</h4>
+                        <p>Network exploration and security auditing tool for port scanning.</p>
+                        <div class="terminal">
+                            <p>$ nmap -sS example.com</p>
+                            <p>Starting Nmap 7.80</p>
+                            <p>PORT STATE SERVICE</p>
+                            <p>80/tcp open http</p>
+                            <p>443/tcp open https</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="os" class="content-section">
+                <h2 class="os-header"><i class="fas fa-desktop"></i> Operating System Fundamentals</h2>
+                <p>Understanding operating systems is essential for web security as servers and applications run on them.</p>
+                
+                <h3><i class="fab fa-linux"></i> Linux Basics</h3>
+                <p>Linux is the most common OS for web servers due to its stability, security, and flexibility.</p>
+                
+                <h4><i class="fas fa-folder"></i> File System Hierarchy</h4>
+                <div class="file-system">
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> /</h4>
+                        <div class="file-item">Root directory</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> /bin</h4>
+                        <div class="file-item">Essential binaries</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> /etc</h4>
+                        <div class="file-item">Configuration files</div>
+                        <div class="file-item">passwd</div>
+                        <div class="file-item">shadow</div>
+                        <div class="file-item">hosts</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> /var</h4>
+                        <div class="file-item">Variable data</div>
+                        <div class="file-item">/var/log</div>
+                        <div class="file-item">/var/www</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> /home</h4>
+                        <div class="file-item">User home directories</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> /tmp</h4>
+                        <div class="file-item">Temporary files</div>
+                    </div>
+                </div>
+                
+                <h4><i class="fas fa-lock"></i> File Permissions</h4>
+                <p>Linux uses a permission system to control access to files and directories.</p>
+                
+                <div class="terminal">
+                    <p>$ ls -la</p>
+                    <p>-rwxr-xr-x 1 user group 2048 Jan 1 12:34 script.sh</p>
+                    <p>drwxr-xr-x 2 user group 4096 Jan 1 12:34 directory</p>
+                    <p>lrwxrwxrwx 1 user group 27 Jan 1 12:34 symlink -> /path/to/target</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>Permission Breakdown:</h4>
+                    <ul>
+                        <li><strong>User (u):</strong> Owner permissions (rwx)</li>
+                        <li><strong>Group (g):</strong> Group permissions (r-x)</li>
+                        <li><strong>Other (o):</strong> Everyone else permissions (r-x)</li>
+                        <li><strong>Read (r):</strong> Permission to read file/list directory (4)</li>
+                        <li><strong>Write (w):</strong> Permission to modify file/add to directory (2)</li>
+                        <li><strong>Execute (x):</strong> Permission to execute file/enter directory (1)</li>
+                    </ul>
+                </div>
+                
+                <h4><i class="fas fa-users"></i> Users & Groups</h4>
+                <p>Linux is multi-user system where access is controlled through user and group permissions.</p>
+                
+                <div class="terminal">
+                    <p>$ id</p>
+                    <p>uid=1000(user) gid=1000(user) groups=1000(user),4(adm),24(cdrom)</p>
+                    <p>$ cat /etc/passwd</p>
+                    <p>root:x:0:0:root:/root:/bin/bash</p>
+                    <p>user:x:1000:1000:User Name,,,:/home/user:/bin/bash</p>
+                    <p>$ cat /etc/group</p>
+                    <p>root:x:0:</p>
+                    <p>user:x:1000:</p>
+                </div>
+                
+                <h4><i class="fas fa-tasks"></i> Process Management</h4>
+                <p>Understanding how to manage processes is crucial for server administration.</p>
+                
+                <div class="terminal">
+                    <p>$ ps aux</p>
+                    <p>USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND</p>
+                    <p>root 1 0.0 0.1 169316 13104 ? Ss Jan01 0:23 /sbin/init</p>
+                    <p>www-data 1234 0.0 1.2 345678 9012 ? S 12:34 0:00 /usr/sbin/apache2 -k start</p>
+                    <p>$ top</p>
+                    <p>Tasks: 100 total, 1 running, 99 sleeping, 0 stopped, 0 zombie</p>
+                    <p>%Cpu(s): 1.5 us, 0.5 sy, 0.0 ni, 98.0 id, 0.0 wa, 0.0 hi, 0.0 si</p>
+                    <p>$ kill -9 1234</p>
+                </div>
+                
+                <h4><i class="fas fa-network-wired"></i> Networking Commands</h4>
+                <p>Essential commands for network configuration and troubleshooting.</p>
+                
+                <div class="terminal">
+                    <p>$ ip addr show</p>
+                    <p>1: lo: &lt;LOOPBACK,UP&gt; mtu 65536 ...</p>
+                    <p>2: eth0: &lt;BROADCAST,MULTICAST,UP&gt; mtu 1500 ...</p>
+                    <p>inet 192.168.1.100/24 brd 192.168.1.255 scope global eth0</p>
+                    <p>$ netstat -tuln</p>
+                    <p>Active Internet connections (only servers)</p>
+                    <p>Proto Recv-Q Send-Q Local Address Foreign Address State</p>
+                    <p>tcp 0 0 0.0.0.0:80 0.0.0.0:* LISTEN</p>
+                    <p>tcp 0 0 0.0.0.0:22 0.0.0.0:* LISTEN</p>
+                </div>
+                
+                <h4><i class="fas fa-archive"></i> Package Management</h4>
+                <p>Different Linux distributions use different package managers.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fab fa-ubuntu"></i> APT (Debian/Ubuntu)</h4>
+                        <div class="terminal">
+                            <p>$ sudo apt update</p>
+                            <p>$ sudo apt install package</p>
+                            <p>$ sudo apt remove package</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fab fa-redhat"></i> YUM/DNF (RedHat/CentOS)</h4>
+                        <div class="terminal">
+                            <p>$ sudo yum update</p>
+                            <p>$ sudo yum install package</p>
+                            <p>$ sudo yum remove package</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3><i class="fab fa-windows"></i> Windows Basics</h3>
+                <p>While less common for web servers, understanding Windows is important as many clients use it.</p>
+                
+                <h4><i class="fas fa-folder"></i> File System Structure</h4>
+                <div class="file-system">
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> C:\Windows</h4>
+                        <div class="file-item">Operating system files</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> C:\Program Files</h4>
+                        <div class="file-item">64-bit applications</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> C:\Program Files (x86)</h4>
+                        <div class="file-item">32-bit applications</div>
+                    </div>
+                    
+                    <div class="file-folder">
+                        <h4><i class="fas fa-folder"></i> C:\Users</h4>
+                        <div class="file-item">User profiles</div>
+                        <div class="file-item">Desktop</div>
+                        <div class="file-item">Documents</div>
+                    </div>
+                </div>
+                
+                <h4><i class="fas fa-cogs"></i> Services & Processes</h4>
+                <p>Windows services run in the background and can be managed through various tools.</p>
+                
+                <div class="info-box">
+                    <h4>Management Tools:</h4>
+                    <ul>
+                        <li><strong>Task Manager:</strong> Basic process management (Ctrl+Shift+Esc)</li>
+                        <li><strong>services.msc:</strong> Service management console</li>
+                        <li><strong>Task Scheduler:</strong> Automated task management</li>
+                        <li><strong>Resource Monitor:</strong> Detailed system resource usage</li>
+                    </ul>
+                </div>
+                
+                <h4><i class="fas fa-database"></i> Registry Basics</h4>
+                <p>The Windows Registry is a hierarchical database that stores low-level settings for the OS and applications.</p>
+                
+                <div class="info-box">
+                    <h4>Main Registry Hives:</h4>
+                    <ul>
+                        <li><strong>HKEY_CLASSES_ROOT:</strong> File association and COM object registration</li>
+                        <li><strong>HKEY_CURRENT_USER:</strong> Configuration for current user</li>
+                        <li><strong>HKEY_LOCAL_MACHINE:</strong> System-wide configuration</li>
+                        <li><strong>HKEY_USERS:</strong> All user profiles</li>
+                        <li><strong>HKEY_CURRENT_CONFIG:</strong> Hardware profile information</li>
+                    </ul>
+                </div>
+                
+                <h4><i class="fas fa-user"></i> User Accounts & Permissions</h4>
+                <p>Windows uses accounts and access control lists (ACLs) to manage permissions.</p>
+                
+                <div class="info-box">
+                    <h4>Account Types:</h4>
+                    <ul>
+                        <li><strong>Administrator:</strong> Full system access</li>
+                        <li><strong>Standard User:</strong> Limited privileges</li>
+                        <li><strong>Guest:</strong> Highly restricted access</li>
+                        <li><strong>Service Accounts:</strong> For running services</li>
+                    </ul>
+                </div>
+                
+                <h4><i class="fas fa-clipboard-list"></i> Event Viewer</h4>
+                <p>The Event Viewer logs application, security, and system events for troubleshooting.</p>
+                
+                <div class="info-box">
+                    <h4>Log Types:</h4>
+                    <ul>
+                        <li><strong>Application:</strong> Events from applications</li>
+                        <li><strong>Security:</strong> Audit and authentication events</li>
+                        <li><strong>System:</strong> Events from Windows system components</li>
+                        <li><strong>Setup:</strong> Installation events</li>
+                        <li><strong>Forwarded Events:</strong> Events from other computers</li>
+                    </ul>
+                </div>
+                
+                <h4><i class="fas fa-terminal"></i> PowerShell Basics</h4>
+                <p>PowerShell is a powerful command-line shell and scripting language for Windows.</p>
+                
+                <div class="terminal">
+                    <p>PS C:\> Get-Process</p>
+                    <p>Handles NPM(K) PM(K) WS(K) CPU(s) Id ProcessName</p>
+                    <p>------- ------ ----- ----- ------ -- -----------</p>
+                    <p>567 24 123456 65432 123.45 1234 chrome</p>
+                    <p>PS C:\> Get-Service | Where-Object {$_.Status -eq "Running"}</p>
+                    <p>Status Name DisplayName</p>
+                    <p>------ ---- -----------</p>
+                    <p>Running WinDefend Windows Defender Antivirus Service</p>
+                </div>
+                
+                <h3><i class="fas fa-server"></i> Web Server Processes</h3>
+                <p>Understanding how web servers run helps with performance tuning and security hardening.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fab fa-windows"></i> IIS (Internet Information Services)</h4>
+                        <ul>
+                            <li>Windows-native web server</li>
+                            <li>Managed through IIS Manager</li>
+                            <li>Uses application pools for isolation</li>
+                            <li>Integrated with Windows Authentication</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-feather"></i> Apache HTTP Server</h4>
+                        <ul>
+                            <li>Multi-process model (prefork) or multi-threaded (worker)</li>
+                            <li>Uses .htaccess for directory-level configuration</li>
+                            <li>Modules extend functionality (mod_ssl, mod_rewrite)</li>
+                            <li>Virtual hosts for hosting multiple sites</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-bolt"></i> Nginx</h4>
+                        <ul>
+                            <li>Event-driven, asynchronous architecture</li>
+                            <li>Excellent performance for static content and reverse proxying</li>
+                            <li>Worker processes handle multiple connections</li>
+                            <li>Configuration through nginx.conf file</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="security" class="content-section">
+                <h2 class="security-header"><i class="fas fa-lock"></i> Web Security Principles</h2>
+                <p>Understanding and implementing security principles is essential for protecting web applications.</p>
+                
+                <h3><i class="fas fa-filter"></i> Input Validation</h3>
+                <p>All user input should be treated as untrusted and validated before processing.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-check-circle"></i> Client-Side Validation</h4>
+                        <ul>
+                            <li>Provides immediate feedback to users</li>
+                            <li>Improves user experience</li>
+                            <li>Easily bypassed - never rely on it for security</li>
+                            <li>Implemented with HTML5 attributes and JavaScript</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-shield-alt"></i> Server-Side Validation</h4>
+                        <ul>
+                            <li>Essential security measure</li>
+                            <li>Validates data before processing</li>
+                            <li>Protects against malicious input</li>
+                            <li>Should use allowlists rather than denylists</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Common Validation Pitfalls</h4>
+                    <ul>
+                        <li>Using denylists instead of allowlists</li>
+                        <li>Not validating data type, length, and format</li>
+                        <li>Not sanitizing data before output</li>
+                        <li>Not validating data on the server side</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-code"></i> Output Encoding (XSS Protection)</h3>
+                <p>Encoding data before output prevents it from being interpreted as code by browsers.</p>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-shield-alt"></i> Context-Specific Encoding</h4>
+                    <ul>
+                        <li><strong>HTML Context:</strong> Convert &, <, >, ", ' to HTML entities</li>
+                        <li><strong>HTML Attribute Context:</strong> Similar to HTML but with quotes</li>
+                        <li><strong>JavaScript Context:</strong> Escape for JavaScript strings</li>
+                        <li><strong>URL Context:</strong> URL encoding with percent-encoding</li>
+                        <li><strong>CSS Context:</strong> Escape for CSS values</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <code>// PHP example: HTML encoding
+$user_input = "&lt;script&gt;alert('XSS')&lt;/script&gt;";
+$safe_output = htmlspecialchars($user_input, ENT_QUOTES, 'UTF-8');
+echo $safe_output; // Outputs: &amp;lt;script&amp;gt;alert(&amp;#x27;XSS&amp;#x27;)&amp;lt;/script&amp;gt;</code>
+                </div>
+                
+                <h3><i class="fas fa-user-check"></i> Authentication vs. Authorization</h3>
+                <p>These two concepts are fundamental to access control in web applications.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-key"></i> Authentication</h4>
+                        <p>Verifying the identity of a user or system.</p>
+                        <ul>
+                            <li>Something you know (password)</li>
+                            <li>Something you have (token, phone)</li>
+                            <li>Something you are (biometrics)</li>
+                            <li>Multi-factor authentication combines these</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-tasks"></i> Authorization</h4>
+                        <p>Determining what an authenticated user is allowed to do.</p>
+                        <ul>
+                            <li>Role-Based Access Control (RBAC)</li>
+                            <li>Attribute-Based Access Control (ABAC)</li>
+                            <li>Permission checks on resources</li>
+                            <li>Principle of least privilege</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Common Security Issues</h4>
+                    <ul>
+                        <li>Weak password policies</li>
+                        <li>Plain text password storage</li>
+                        <li>Insufficient password hashing</li>
+                        <li>Broken authentication logic</li>
+                        <li>Insecure direct object references</li>
+                        <li>Missing access control checks</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-lock"></i> HTTPS / TLS Best Practices</h3>
+                <p>Proper implementation of HTTPS is crucial for securing data in transit.</p>
+                
+                <div class="success-box">
+                    <h4><i class="fas fa-check-circle"></i> HTTPS Implementation Checklist</h4>
+                    <ul>
+                        <li>Use strong certificates from trusted CAs</li>
+                        <li>Redirect all HTTP traffic to HTTPS</li>
+                        <li>Use HSTS header to enforce HTTPS</li>
+                        <li>Implement perfect forward secrecy</li>
+                        <li>Use secure cipher suites</li>
+                        <li>Keep TLS libraries up to date</li>
+                        <li>Use secure cookies (Secure and HttpOnly flags)</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-puzzle-piece"></i> Combining Web, Network & OS Security</h3>
+                <p>Real-world security issues often span multiple layers of the technology stack.</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-database"></i> SQL Injection</h4>
+                        <p>Requires understanding of web applications and databases.</p>
+                        <div class="code-block">
+                            <code>// Vulnerable code
+$query = "SELECT * FROM users WHERE id = " . $_GET['id'];
+
+// Secure code with prepared statements
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+$stmt->execute(['id' => $_GET['id']]);</code>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-folder-open"></i> Path Traversal</h4>
+                        <p>Requires understanding of OS file systems.</p>
+                        <div class="code-block">
+                            <code>// Vulnerable code
+$file = $_GET['file'];
+readfile("/var/www/files/" . $file);
+
+// Secure code
+$base = "/var/www/files/";
+$realBase = realpath($base);
+$userPath = $base . $_GET['file'];
+$realUserPath = realpath($userPath);
+
+if ($realUserPath === false || strpos($realUserPath, $realBase) !== 0) {
+    // Invalid path
+    die("Invalid file");
+}</code>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-server"></i> SSRF (Server-Side Request Forgery)</h4>
+                        <p>Requires understanding of networking and web requests.</p>
+                        <div class="code-block">
+                            <code>// Vulnerable code
+$url = $_GET['url'];
+$data = file_get_contents($url);
+
+// Secure code
+$allowed_domains = ['example.com', 'api.example.com'];
+$url = $_GET['url'];
+$host = parse_url($url, PHP_URL_HOST);
+
+if (!in_array($host, $allowed_domains)) {
+    die("Domain not allowed");
+}</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-tools"></i> Security Tools</h3>
+                <p>Various tools are available to help test and improve web application security.</p>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-bug"></i> Burp Suite</h4>
+                    <p>An integrated platform for performing security testing of web applications.</p>
+                    <ul>
+                        <li><strong>Proxy:</strong> Intercept and modify HTTP/S requests</li>
+                        <li><strong>Scanner:</strong> Automated vulnerability scanning</li>
+                        <li><strong>Intruder:</strong> Customizable attack tool for automation</li>
+                        <li><strong>Repeater:</strong> Manual manipulation and resending of requests</li>
+                        <li><strong>Sequencer:</strong> Analyze session tokens randomness</li>
+                        <li><strong>Decoder:</strong> Encode and decode data</li>
+                        <li><strong>Comparer:</strong> Compare responses to spot differences</li>
+                    </ul>
+                </div>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <h4><i class="fas fa-search"></i> OWASP ZAP</h4>
+                        <p>Free security tool for finding vulnerabilities in web applications.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-terminal"></i> Nmap</h4>
+                        <p>Network discovery and security auditing tool.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4><i class="fas fa-code"></i> SQLMap</h4>
+                        <p>Automates detecting and exploiting SQL injection flaws.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>Complete Web Security Guide | Created for educational purposes</p>
+            <p>Remember: Always practice ethical hacking on systems you own or have permission to test.</p>
+        </footer>
+    </div>
+
+    <div class="hacker" onclick="openTreasure()">
+        <i class="fas fa-user-secret"></i>
+    </div>
+
+    <div class="treasure" id="treasure">
+        <i class="fas fa-treasure-chest"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation functionality
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Hide all sections
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Scroll to top
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                });
+            });
+            
+            // Initialize first section as active
+            document.getElementById('web-basics').classList.add('active');
+        });
+        
+        // Treasure chest function
+        function openTreasure() {
+            const treasure = document.getElementById('treasure');
+            if (treasure.style.display === 'block') {
+                treasure.style.display = 'none';
+            } else {
+                treasure.style.display = 'block';
+                setTimeout(() => {
+                    treasure.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
