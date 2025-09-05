@@ -628,44 +628,60 @@ DELETE /api/users/123</code>
                 <h3><i class="fas fa-magic"></i> HTTP Methods</h3>
                 <p>HTTP methods indicate the desired action to be performed on a resource.</p>
                 
-                <div class="comparison-table">
-                    <tr>
-                        <th>Method</th>
-                        <th>Description</th>
-                        <th>Idempotent</th>
-                        <th>Safe</th>
-                    </tr>
-                    <tr>
-                        <td>GET</td>
-                        <td>Retrieve a resource</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>POST</td>
-                        <td>Submit data to be processed</td>
-                        <td>No</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>PUT</td>
-                        <td>Update a resource</td>
-                        <td>Yes</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>DELETE</td>
-                        <td>Delete a resource</td>
-                        <td>Yes</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>HEAD</td>
-                        <td>Get headers only</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                    </tr>
-                </div>
+                <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Idempotent</th>
+                    <th>Safe</th>
+                    <th>Request Body</th>
+                    <th>Response Body</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>GET</td>
+                    <td>Retrieve a resource</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Optional</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>POST</td>
+                    <td>Submit data to be processed</td>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>PUT</td>
+                    <td>Update a resource</td>
+                    <td>Yes</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Usually</td>
+                </tr>
+                <tr>
+                    <td>DELETE</td>
+                    <td>Delete a resource</td>
+                    <td>Yes</td>
+                    <td>No</td>
+                    <td>Optional</td>
+                    <td>Usually</td>
+                </tr>
+                <tr>
+                    <td>HEAD</td>
+                    <td>Get headers only</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Optional</td>
+                    <td>No</td>
+                </tr>
+            </tbody>
+        </table>
                 
                 <h3><i class="fas fa-code"></i> HTTP Status Codes</h3>
                 <p>Status codes indicate the result of the HTTP request.</p>
@@ -1507,4 +1523,5 @@ if (!in_array($host, $allowed_domains)) {
         }
     </script>
 </body>
+
 </html>
